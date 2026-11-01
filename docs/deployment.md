@@ -2,6 +2,24 @@
 
 Phiên bản 3 dùng lại dữ liệu và cấu hình triển khai hiện có. Sau khi cập nhật mã, chạy `docker compose -p chuyen-hai-minh up -d --build app`, rồi tải lại trang bằng Ctrl+F5. Chi tiết các trang mới tại [experience-v3.md](experience-v3.md).
 
+## Render — link app online
+
+Repository GitHub lưu mã nguồn; đẩy mã lên GitHub không tự chạy máy chủ. Ứng dụng dùng Express, Socket.IO và SQLite nên cần **Web Service**, không chọn Static Site hoặc GitHub Pages.
+
+1. Mở [Deploy to Render](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2Fminhnhatle0312%2FNhatleeAndNSuong), đăng nhập và cấp quyền đọc repository nếu được yêu cầu.
+2. Render đọc `render.yaml`: Node 22, `npm ci`, `npm start`, máy chủ lắng nghe `0.0.0.0`, health check `/api/health`, cookie HTTPS và một instance tại Singapore.
+3. Xem chi phí Web Service và ổ đĩa 1 GB trong màn hình xác nhận. **Blueprint dùng gói trả phí** vì SQLite và tệp tải lên cần ổ đĩa bền vững. Không chuyển sang Free hoặc bỏ disk khi dùng dữ liệu thật: tệp trên hệ thống tạm bị mất khi khởi động lại/triển khai lại.
+4. Xác nhận triển khai, chờ trạng thái **Live**, rồi mở URL HTTPS hiển thị trong trang dịch vụ. Đây là link chia sẻ để dùng ứng dụng. Không dùng link repository để mở app.
+5. Mỗi người tạo một tài khoản, sau đó ghép đôi bằng mã mời trong hồ sơ. Trên điện thoại có thể thêm app vào màn hình chính qua Safari/Chrome; tính năng này tùy trình duyệt và vẫn cần Internet cho dữ liệu/chat.
+
+`DATA_DIR=/var/data/database` và `UPLOAD_DIR=/var/data/uploads` nằm trong disk `/var/data`. Tài khoản, phiên và nội dung được giữ qua lần deploy tiếp theo. Không tăng số instance vì SQLite, disk và trạng thái Socket.IO hiện dùng chung trong một tiến trình. Khi deploy lại có thể có khoảng gián đoạn ngắn và cuộc gọi đang diễn ra bị ngắt.
+
+Sau khi kết nối repository, commit mới trên `main` tự kích hoạt deploy. Nếu build/deploy lỗi, xem **Logs** trong trang dịch vụ. Cấu hình tham chiếu: [Blueprint](https://render.com/docs/blueprint-spec), [ổ đĩa bền vững](https://render.com/docs/disks), [triển khai Express](https://render.com/docs/deploy-node-express-app).
+
+Lần triển khai đầu tạo cơ sở dữ liệu trống. Dữ liệu tại `data/` và `uploads/` trên máy không có trong Git và không tự chuyển lên Render. Nếu cần chuyển dữ liệu cũ, dừng ứng dụng trước khi sao lưu rồi chuyển cả hai thư mục lên đúng vị trí của disk; không đưa dữ liệu riêng tư vào repository.
+
+HTTPS cho phép trình duyệt xin quyền camera/mic/GPS. Để gọi qua hai mạng khác nhau, cấu hình thêm STUN/TURN trong **Environment** của Render theo mục bên dưới; không ghi mật khẩu TURN vào Git.
+
 ## Cục bộ
 
 Chạy `npm start`, mở http://localhost:3000. Mặc định chỉ lắng nghe `127.0.0.1`. SQLite và các tệp được lưu lâu dài tại `data/` và `uploads/`. Không cần SQL Server hoặc khóa API để xem giao diện và dùng các chức năng chính.

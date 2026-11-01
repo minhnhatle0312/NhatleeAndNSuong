@@ -1,0 +1,33 @@
+# Paid compute and a persistent disk are required for SQLite and uploads.
+# Review the cost in Render before approving the deployment.
+services:
+  - type: web
+    name: nhatlee-nsuong
+    runtime: node
+    plan: 0.5c-512mb
+    region: singapore
+    branch: main
+    numInstances: 1
+    buildCommand: npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATA_DIR
+        value: /var/data/database
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: TRUST_PROXY
+        value: "1"
+    disk:
+      name: memories
+      mountPath: /var/data
+      sizeGB: 1

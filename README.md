@@ -4,6 +4,16 @@ Phiên bản 3 bổ sung các trải nghiệm trong `bosungyeucau.md` và nâng 
 
 Ứng dụng dành cho hai người, giao diện tiếng Việt, thiết kế màu kem/hồng trầm, trái tim 3D bằng CSS và thú cưng vector có chuyển động. Dùng Express, Socket.IO và SQLite tích hợp trong Node.js; mọi dữ liệu nghiệp vụ được lưu tại máy chủ.
 
+## Mở ứng dụng trên Internet
+
+Link `github.com/minhnhatle0312/NhatleeAndNSuong` là kho mã nguồn và hiển thị README, không phải địa chỉ ứng dụng. App có máy chủ Node.js, SQLite và Socket.IO nên cần hosting chạy backend; GitHub Pages chỉ phục vụ trang tĩnh.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2Fminhnhatle0312%2FNhatleeAndNSuong)
+
+Đã có [render.yaml](render.yaml) để tạo một Web Service ở Singapore và ổ lưu trữ bền vững cho tài khoản, tin nhắn, ảnh/video. **Cấu hình này dùng dịch vụ trả phí và ổ đĩa 1 GB**; xem chi phí trong Render trước khi xác nhận. Sau khi deploy thành công, mở URL HTTPS do Render cấp trong trang dịch vụ. Xem [hướng dẫn Render](docs/deployment.md#render--link-app-online).
+
+Trên điện thoại, mở URL của app bằng Safari/Chrome rồi chọn **Thêm vào màn hình chính** hoặc **Cài đặt ứng dụng** nếu trình duyệt hỗ trợ. Dự án đã có PWA để mở ở cửa sổ riêng; đăng nhập, đồng bộ và chat vẫn cần Internet.
+
 ## Mở trên máy
 
 Yêu cầu Node.js 22.13 trở lên. Nếu đã có `node_modules` thì không cần cài lại.
@@ -46,7 +56,7 @@ docker compose -p chuyen-hai-minh up -d --build app
 
 Chạy ứng dụng Node trực tiếp **hoặc** Docker; dừng tiến trình chiếm cổng 3000 trước khi chuyển cách chạy. `data/` và `uploads/` được gắn vào container để dữ liệu còn nguyên khi tạo lại container. Docker này độc lập với các container Keycloak/Postgres khác trên máy.
 
-Để truy cập từ Internet cần máy chủ có địa chỉ truy cập được và tên miền. Đã có profile Caddy HTTPS trong [hướng dẫn triển khai](docs/deployment.md). Gọi điện qua các mạng khác nhau có thể cần STUN/TURN do bạn cấu hình. Chưa tự cung cấp tên miền, dịch vụ TURN hoặc xuất bản lên Internet.
+Để truy cập từ Internet có thể dùng Render theo hướng dẫn ở trên, hoặc máy chủ riêng với profile Caddy HTTPS trong [hướng dẫn triển khai](docs/deployment.md). Render cấp địa chỉ HTTPS, không cần mua tên miền riêng. Gọi điện qua các mạng khác nhau có thể cần STUN/TURN do bạn cấu hình.
 
 ## Cấu trúc và dữ liệu
 
@@ -56,4 +66,4 @@ Chạy ứng dụng Node trực tiếp **hoặc** Docker; dừng tiến trình c
 - `compose.yaml`, `Dockerfile`, `infra/Caddyfile`: chạy bằng Docker và reverse proxy HTTPS.
 - `src/server/server.js`, `infra/sql/`, các tệp CSS/JS giao diện trước: giữ lại để tham khảo/chuyển dữ liệu; không thuộc luồng chạy phiên bản 2. Backend SQL cũ không có xác thực và không được dùng để phục vụ giao diện mới.
 
-Theo yêu cầu lần phát triển này: chưa thực hiện kiểm thử chức năng/tự động hoặc kiểm thử trên hai thiết bị. Khởi động máy chủ và kiểm tra khả năng phục vụ localhost chỉ nhằm cung cấp bản xem trước.
+Đã kiểm tra cục bộ với cấu hình production: khởi động máy chủ, health check, phục vụ giao diện/PWA, Socket.IO, đăng ký với cookie HTTPS và giữ tài khoản/phiên sau khi khởi động lại. Kiểm tra dùng dữ liệu tạm riêng. Chưa xác minh triển khai thực tế trên Render hoặc gọi điện trên hai thiết bị/hai mạng.
