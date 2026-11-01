@@ -1,0 +1,18 @@
+{
+  "name": "nhatlee-nsuong-memories",
+  "version": "3.0.0",
+  "private": true,
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "start": "node src/server/server.local.js",
+    "start:local": "node src/server/server.local.js",
+    "dev": "node --watch src/server/server.local.js",
+    "dev:local": "node --watch src/server/server.local.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "socket.io": "^4.8.1"
+  }
+}

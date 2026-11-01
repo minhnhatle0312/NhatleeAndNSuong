@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Memory Space (local SQLite)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/server/server.local.js",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "console": "integratedTerminal",
+      "restart": true,
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "pattern": "http://localhost:([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Open Memory Space in Chrome",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/public"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run & Debug Memory Space",
+      "configurations": [
+        "Run Memory Space (local SQLite)",
+        "Open Memory Space in Chrome"
+      ]
+    }
+  ]
+}

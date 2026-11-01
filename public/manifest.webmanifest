@@ -1,0 +1,14 @@
+{
+  "id": "/",
+  "name": "Chuyện hai mình · NhatLee & NSuong",
+  "short_name": "Hai mình ♡",
+  "description": "Không gian riêng để lưu giữ những khoảnh khắc của hai bạn.",
+  "lang": "vi",
+  "start_url": "/#home",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8f5f0",
+  "theme_color": "#754557",
+  "icons": [{ "src": "/assets/icons/heart.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

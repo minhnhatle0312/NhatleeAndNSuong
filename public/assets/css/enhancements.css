@@ -1,0 +1,212 @@
+.love-core {
+  position: absolute;
+  z-index: 3;
+  left: 15px;
+  top: 78px;
+  width: 190px;
+  height: 225px;
+  display: grid;
+  place-items: center;
+  perspective: 700px;
+  filter: drop-shadow(0 18px 15px #63313b45);
+}
+.heart-3d {
+  width: 116px;
+  height: 105px;
+  position: absolute;
+  top: 4px;
+  transform-style: preserve-3d;
+  animation: heart-float 4s ease-in-out infinite;
+}
+.heart-3d div {
+  font: 132px/1 Georgia;
+  color: #c55169;
+  text-shadow:
+    9px 13px 0 #813c4b,
+    16px 25px 23px #552a3475;
+  transform: rotateY(-17deg) rotateZ(-5deg);
+  animation: heart-beat 1.8s ease-in-out infinite;
+}
+.heart-copy {
+  z-index: 2;
+  text-align: center;
+  margin-top: 112px;
+  background: #fff9f5e8;
+  backdrop-filter: blur(8px);
+  padding: 10px 16px;
+  border-radius: 9px;
+  box-shadow: var(--shadow);
+  min-width: 142px;
+}
+.heart-copy span,
+.heart-copy small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+}
+.heart-copy strong {
+  display: block;
+  color: var(--dark);
+  font: 700 38px/0.95 "Playfair Display";
+  letter-spacing: -1px;
+  margin: 3px 0;
+}
+@keyframes heart-float {
+  50% {
+    transform: translateY(-12px) rotateY(13deg);
+  }
+}
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: rotateY(-17deg) rotateZ(-5deg) scale(1);
+  }
+  45% {
+    transform: rotateY(-17deg) rotateZ(-5deg) scale(1.12);
+  }
+}
+.memory-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  color: var(--muted);
+  font: 12px "DM Mono";
+  border-top: 1px solid var(--line);
+}
+.memory-tools button {
+  border: 1px solid #cba7a6;
+  background: transparent;
+  color: var(--dark);
+  border-radius: 20px;
+  padding: 7px 11px;
+  cursor: pointer;
+  font: 11px "Plus Jakarta Sans";
+}
+.grid {
+  position: relative;
+  padding-top: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 32%,
+    #82645d30 32.2%,
+    transparent 32.6%
+  );
+}
+.grid:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #866a61;
+  box-shadow: 0 4px 0 #ffffffaa;
+}
+.memory {
+  position: relative;
+  margin-top: 15px;
+  transform: rotate(var(--tilt, 0deg));
+}
+.memory:nth-child(3n + 1) {
+  --tilt: -1.4deg;
+}
+.memory:nth-child(3n + 2) {
+  --tilt: 1.2deg;
+  margin-top: 34px;
+}
+.memory:nth-child(3n) {
+  --tilt: -0.5deg;
+  margin-top: 21px;
+}
+.memory:before {
+  content: "✦";
+  position: absolute;
+  z-index: 2;
+  top: -31px;
+  left: 50%;
+  color: #9e675b;
+  font-size: 18px;
+  text-shadow: 0 1px #fff;
+}
+.memory:hover {
+  transform: translateY(-9px) rotate(0);
+}
+@media (max-width: 800px) {
+  .love-core {
+    left: 2px;
+    top: 42px;
+    transform: scale(0.82);
+    transform-origin: left top;
+  }
+  .grid {
+    padding-top: 23px;
+  }
+  .memory:nth-child(3n + 2) {
+    margin-top: 26px;
+  }
+}
+@media (max-width: 490px) {
+  .love-core {
+    left: -7px;
+    top: 30px;
+    transform: scale(0.66);
+  }
+  .memory-tools {
+    margin-top: 4px;
+  }
+}
+
+/* Event Modal Styles */
+.modal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: var(--card);
+  color: var(--ink);
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+}
+.modal::backdrop {
+  background: rgba(30, 20, 25, 0.7);
+  backdrop-filter: blur(3px);
+}
+.modal-content {
+  padding: 24px;
+}
+.modal-content h3 {
+  margin: 0 0 16px;
+  font: 22px "Playfair Display";
+  color: var(--dark);
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+.events-list {
+  background: none;
+  padding-top: 10px;
+}
+.events-list:before {
+  display: none;
+}
+.event-card {
+  transform: none !important;
+  margin-top: 0 !important;
+}
+.event-card:before {
+  display: none;
+}
+.event-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  color: var(--muted);
+  font: 12px "DM Mono";
+  border-top: 1px solid var(--line);
+}
+
