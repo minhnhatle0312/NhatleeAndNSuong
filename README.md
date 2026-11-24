@@ -25,6 +25,14 @@ npm start
 
 Mở **http://localhost:3000**. `npm run dev` tự khởi động lại khi sửa máy chủ.
 
+Nếu cổng 3000 đang được dùng, chạy bằng cổng khác:
+
+```powershell
+$env:PORT=3001; npm start
+```
+
+Mã nguồn được kiểm tra tự động bằng GitHub Actions sau mỗi lần push. GitHub chỉ lưu mã nguồn; để chạy ứng dụng online, kết nối repository với Render bằng `render.yaml` (ứng dụng cần Node.js, SQLite, upload và Socket.IO nên không deploy trực tiếp bằng GitHub Pages).
+
 1. Chọn **Tạo tài khoản**, cập nhật hồ sơ, ảnh đại diện, ngày sinh và giới tính.
 2. Vào **Hồ sơ & ghép đôi → Mời người thương**, tạo mã dùng một lần trong 24 giờ.
 3. Người còn lại đăng ký tài khoản riêng bằng trình duyệt khác hoặc cửa sổ riêng tư, rồi nhập mã. Không dùng hai tab cùng phiên để đăng nhập hai tài khoản vì cookie được dùng chung.

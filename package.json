@@ -7,7 +7,8 @@
     "start": "node src/server/server.local.js",
     "start:local": "node src/server/server.local.js",
     "dev": "node --watch src/server/server.local.js",
-    "dev:local": "node --watch src/server/server.local.js"
+    "dev:local": "node --watch src/server/server.local.js",
+    "check": "node --check src/server/server.local.js && node --check src/server/couple.js && node --check src/server/experience.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
