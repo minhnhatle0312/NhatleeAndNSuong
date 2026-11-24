@@ -123,7 +123,7 @@ app.post("/api/auth/register", authLimit, route(async (req, res) => {
 app.post("/api/auth/login", authLimit, route(async (req, res) => {
   const user = get("SELECT * FROM love_users WHERE email=?", text(req.body.email, 254).toLowerCase());
   if (!user || String(req.body.password || "").length > 128 || !await verifyPassword(String(req.body.password || ""), user.password)) fail("Email hoặc mật khẩu chưa đúng.", 401);
-  session(res, user); res.json(state(user));
+  seedSampleData(user); session(res, user); res.json(state(user));
 }));
 app.post("/api/auth/logout", auth, (req, res) => {
   const p=parse(req.user.profile);p.locationEnabled=false;delete p.location;run("UPDATE love_users SET profile=? WHERE id=?",JSON.stringify(p),req.user.id);emit(req.user.space,"location");
