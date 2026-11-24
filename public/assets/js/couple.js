@@ -281,7 +281,7 @@
   window.addEventListener('online',()=>{if(S)refresh().catch(()=>{});});
   window.addEventListener('beforeunload',()=>{stopCamera();stopRecording(true);endCall();if(watchId!==null)navigator.geolocation.clearWatch(watchId);});
   let installPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('#installButton').hidden=false;});$('#installButton').onclick=async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;$('#installButton').hidden=true;};
-  if('serviceWorker' in navigator&&(location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname)))navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  if('serviceWorker' in navigator&&(location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname)))navigator.serviceWorker.register(new URL('service-worker.js',document.baseURI)).catch(()=>{});
   setInterval(()=>{if(!S)return;const counter=$('#loveCounter');if(counter&&S.partner){const elapsed=Math.max(0,Date.now()-new Date(S.settings.relationshipStart+'T00:00:00').getTime()),hours=Math.floor(elapsed/36e5)%24,minutes=Math.floor(elapsed/6e4)%60;counter.textContent=`${hours} giờ ${minutes} phút · kể từ ${fmt(S.settings.relationshipStart)}`;}},1000);
   setInterval(()=>{if(S&&!document.hidden)refresh(page==='location'||page==='home'||page==='games').catch(()=>{});},60000);
   api('/state').then(enterApp).catch(e=>{showAuth();if(!/đăng nhập/i.test(e.message))$('#authError').textContent=e.message;});
