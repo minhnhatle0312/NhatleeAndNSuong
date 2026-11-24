@@ -61,6 +61,18 @@ function insert(user, kind, payload) {
   experience?.created(user,kind,payload,id);
   emit(user.space, kind); return record(get("SELECT * FROM love_records WHERE id=?", id));
 }
+function seedSampleData(user) {
+  if (process.env.SEED_SAMPLE_DATA !== "true" || get("SELECT id FROM love_records WHERE space=? LIMIT 1", user.space)) return;
+  const date = today(), future = new Date(`${date}T12:00:00Z`);
+  future.setUTCDate(future.getUTCDate() + 7);
+  const nextWeek = future.toISOString().slice(0, 10);
+  insert(user, "memory", { title: "Ngày đầu tiên của chúng mình", body: "Một kỷ niệm mẫu để bắt đầu ngôi nhà nhỏ này.", date, attachment: null, shared: true });
+  insert(user, "mood", { mood: "🥰", body: "Hôm nay mình thấy thật bình yên khi có nhau.", date, shared: true });
+  insert(user, "event", { title: "Một buổi hẹn thật đẹp", body: "Cùng chọn một nơi mới để khám phá nhé.", date: nextWeek, recurring: false, shared: true });
+  insert(user, "wish", { title: "Cùng ngắm hoàng hôn ở một nơi mới", completed: false, shared: true });
+  insert(user, "journal", { title: "Điều nhỏ muốn giữ lại", body: "Cảm ơn vì đã luôn ở đây và lắng nghe nhau.", date, mood: "♡", shared: true });
+  insert(user, "challenge", { title: "Nói một lời yêu thương hôm nay", body: "Một câu dịu dàng cũng đủ làm ngày của nhau sáng hơn.", date, completed: false, shared: true });
+}
 function writeRecord(row, payload) { run("UPDATE love_records SET payload=?,updated=? WHERE id=?", JSON.stringify(payload), now(), row.id); experience?.updated(row,payload); emit(row.space, row.kind); return record(get("SELECT * FROM love_records WHERE id=?", row.id)); }
 function owned(req, kind, shared = false) {
   const row = get("SELECT * FROM love_records WHERE id=? AND space=? AND kind=?", req.params.id, req.user.space, kind);
@@ -106,7 +118,7 @@ app.post("/api/auth/register", authLimit, route(async (req, res) => {
     run("INSERT INTO love_users VALUES(?,?,?,?,?,?)", id, email, encoded, JSON.stringify({ name, gender: "other", interestedIn: "all", birthday: "", bio: "", avatar: "", status: "Đang ở đây", healthStatus: "", shareHealth: false, locationEnabled: false }), space, now());
     if (!get("SELECT value FROM love_meta WHERE key='legacyOwner'")) run("INSERT INTO love_meta VALUES('legacyOwner',?)", id);
   });
-  const user = get("SELECT * FROM love_users WHERE id=?", id); session(res, user); res.status(201).json(state(user));
+  const user = get("SELECT * FROM love_users WHERE id=?", id); seedSampleData(user); session(res, user); res.status(201).json(state(user));
 }));
 app.post("/api/auth/login", authLimit, route(async (req, res) => {
   const user = get("SELECT * FROM love_users WHERE email=?", text(req.body.email, 254).toLowerCase());
